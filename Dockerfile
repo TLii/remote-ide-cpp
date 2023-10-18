@@ -17,4 +17,4 @@ RUN apt-get install --no-install-recommends -y \
 
 
 # FINISH WITH CHANGING USER
-USER 1000
+USER $IDE_UID
