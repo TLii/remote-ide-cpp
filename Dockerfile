@@ -6,12 +6,12 @@ LABEL description="Containerized remote for C++ development"
 
 USER root
 
-# Install PHP
+# Install base tools
 RUN apt-get install --no-install-recommends -y \
     make \
     build-essential \
-    manpages-dev
-
+    manpages-dev \
+    gdb
 
 ## SETUP ADDITIONAL TOOLS ##
 
