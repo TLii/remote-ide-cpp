@@ -19,19 +19,19 @@ Not yet.
 
 ### Environment variables
 
-- `$PASSWORD` sets the login password for the `vscode` user. User name can't be changed.
+- `$IDE_PASSWORD` sets the login password for the created user. User name, however is set during image build and shouldn't be changed any more; the default is `vscode`.
 - You can provide a single ssh key through the environment variable `SSH-KEY`, if it happens to contain no illegal characters. This is not very well implemented, so use is discouraged.
 
 ### Special mount locations
 
 - `/home/vscode/.ssh/authorized_keys.d`: Every file under this directory ending in .key will be included in .ssh/authorized_keys.
-- `/home/vscode`: The home directory is persisted. Source code should be placed in a subdirectory.
+- `/home/vscode`: The home directory is persisted.
 - `/usr/local/etc/ssh`: The location of ssh(d) configuration. This is persisted to maintain ssh keys over instances.
 
 ### Custom scripting
 
-You can add scripts to be run at container startup. `/home/vscode/setup.sh` is executed in the beginning of entrypoint, right after runlevel 1. `/home/vscode/start.sh` is executed at the end, right before final entrypoint scripting and the command passed to the container. You can use sudo to run commands with higher privileges.
+You can add scripts to be run at container startup. `/home/vscode/setup.sh` is executed in the beginning of the entrypoint script, scripts in `/usr/local/bin/entrypoint.d/` are executed next and `/home/vscode/start.sh` at the end. Commands are not, by default, run as root, but you can use sudo to run commands with higher privileges. Please note that `/usr/local/bin/entrypoint.d` might also include scripts included with the image, so do not mount it from an external source unless you know what you are doing.
 
 ### Extending container
 
-You can also extend this image to suit your needs. I recommend against changing the docker-entrypoint.sh; instead, use provided runlevels 1–9 scripting directories under `/usr/local/bin/`. All files ending with .sh under these directories (e.g. `/usr/local/bin/entrypoint.d.1`) runlevels are executed at different points of docker-entrypoint, giving you a lot of control. See `/usr/local/bin/docker-entrypoint.sh` for details. Note that entrypoint is run as the user, so use sudo where necessary.
+Easiest way is to build an image using this as the source image. Instead of changing the docker-entrypoint.sh script itself you can extend entrypoint setup by placing additional scripts under `/usr/local/bin/entrypoint.d/`). All files with ending `.sh` will be executed during entrypoint. Note that entrypoint is run as the user, so use sudo where necessary.
