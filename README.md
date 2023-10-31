@@ -20,7 +20,7 @@ Not yet.
 ### Environment variables
 
 - `$IDE_PASSWORD` sets the login password for the created user. User name, however is set during image build and shouldn't be changed any more; the default is `vscode`.
-- You can provide a single ssh key through the environment variable `SSH-KEY`, if it happens to contain no illegal characters. This is not very well implemented, so use is discouraged.
+- You can provide a single ssh key through the environment variable `SSH_KEY` as a base64encoded string. This is not very well implemented, so use is discouraged.
 
 ### Special mount locations
 
